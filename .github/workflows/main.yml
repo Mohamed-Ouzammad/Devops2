@@ -26,9 +26,8 @@ jobs:
         npm install 
 
     - name: ESLint (JS/TS) Action
-      uses: iCrawl/action-eslint@v1
-      with:
-        eslint_options: --ext .js,.ts  
+      run: |
+        npx eslint "**/*.js" 
 
     - name: Run tests
       run: |
