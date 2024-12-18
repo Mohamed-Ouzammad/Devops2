@@ -1,37 +1,23 @@
 const express = require('express');
-
 const app = express();
-
 app.use(express.json());
 
 let tasks = [];
 
 app.get('/', (req, res) => {
-    res.json({ tasks });
+    res.status(200).json({ tasks });
 });
 
 app.post('/add-task', (req, res) => {
-    const newTask = req.body.task;
-    if (newTask && newTask.id && newTask.text) {
-        tasks.push(newTask);
-        res.status(201).json({ message: 'Task added', tasks });
-    } else {
-        res.status(400).json({ error: 'Task must have an id and text' });
-    }
+    const { task } = req.body;
+    tasks.push(task);
+    res.status(201).json({ tasks });
 });
 
 app.delete('/delete-task', (req, res) => {
-    const taskIdToDelete = req.body.id;
-    const index = tasks.findIndex(task => task.id === taskIdToDelete);
-    if (index !== -1) {
-        const removedTask = tasks.splice(index, 1);
-        res.status(200).json({ message: 'Task deleted', removedTask, tasks });
-    } else {
-        res.status(404).json({ error: 'Task not found' });
-    }
+    const { id } = req.body;
+    tasks = tasks.filter(task => task.id !== id);
+    res.status(200).json({ tasks });
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Serveur lancé`);
-});
+module.exports = app;
