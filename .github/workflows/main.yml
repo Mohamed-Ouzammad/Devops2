@@ -10,21 +10,27 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest  
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2  
 
-    - name: Install Node
+    - name: Install Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 22 
+        node-version: '22'  
 
     - name: Install dependencies
       run: |
-        npm install  # Installe les dépendances du projet
+        npm install 
+
+    - name: ESLint (JS/TS) Action
+      uses: iCrawl/action-eslint@v1
+      with:
+        eslint_options: --ext .js,.ts  
 
     - name: Run tests
       run: |
-        npm test  # Exécute les tests définis dans votre projet
+        npm test  
+
